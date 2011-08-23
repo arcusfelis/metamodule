@@ -106,7 +106,7 @@ handle_info({'DOWN', _Ref, process, FromPid, _Reason},
 add_fun(ServerPid, FunName, Body) ->
     ClientPid = self(),
     gen_server:call(ServerPid, 
-        {'add_fun', ClientPid, FunName, Body}).
+        {'add_fun', ClientPid, FunName, Body}, 60000).
     
 
 
