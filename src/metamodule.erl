@@ -16,7 +16,7 @@
 start_link(Name) ->
     Arguments = [Name],
     Opts = [],
-    gen_server:start_link(?MODULE, Arguments, Opts).
+    gen_server:start_link({local, Name}, ?MODULE, Arguments, Opts).
 
 init([Name]) 
     when is_atom(Name) ->
@@ -160,6 +160,20 @@ common_test() ->
 
     % Reserve a name for a new function.
     {ok, N, F} = metamodule:new_fun(M),
+
+    {error, _} = F("bad_name() -> true."),
+    {error, _} = F("bad function!"),
+
+    {ok, FF} = F(N++"() -> true."),
+    ?assert(FF()).   
+
+
+reg_test() ->
+    % Start a new server. Get the server pid:
+    {ok, M} = metamodule:new_module(test_meta1),
+
+    % Reserve a name for a new function.
+    {ok, N, F} = metamodule:new_fun(test_meta1),
 
     {error, _} = F("bad_name() -> true."),
     {error, _} = F("bad function!"),
