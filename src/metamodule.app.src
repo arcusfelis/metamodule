@@ -1,0 +1,8 @@
+%% -*- erlang -*-
+{application, metamodule,
+ [{description, "metamodule"},
+  {vsn, "0.1"},
+  {modules, []},
+  {registered, []},
+  {env, []},
+  {applications, [kernel, stdlib]}]}.
